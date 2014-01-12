@@ -27,6 +27,10 @@ Or add the gem to your Gemfile
 
     gem 'grape-hal'
 
+Use it in code by
+
+    require 'grape/hal'
+
 Examples
 --------
 
@@ -35,6 +39,8 @@ If you want to add Hal response to your exist Grape Api, just simply include `Gr
 Here are some Grape Apis. Note the `include Grape::Hal` and `hal_for` block.
 
 ```ruby
+require 'grape/hal'
+
 class FooApi < ::Grape::API
   desc 'foo api description', rel: 'foo api'
   get '/foo_path/'
