@@ -34,34 +34,36 @@ If you want to add Hal response to your exist Grape Api, just simply include `Gr
 
 Here are some Grape Apis. Note the `include Grape::Hal` and `hal_for` block.
 
-    class FooApi < ::Grape::API
-      desc 'foo api description', rel: 'foo api'
-      get '/foo_path/'
-    end
+```ruby
+class FooApi < ::Grape::API
+  desc 'foo api description', rel: 'foo api'
+  get '/foo_path/'
+end
 
-    class SubApi < ::Grape::API
-      desc 'bar api description with {param}', rel: 'bar api'
-      get 'bar_path/:param'
+class SubApi < ::Grape::API
+  desc 'bar api description with {param}', rel: 'bar api'
+  get 'bar_path/:param'
 
-      desc 'qux api description', rel: 'qux api'
-      get 'qux_path'
-    end
+  desc 'qux api description', rel: 'qux api'
+  get 'qux_path'
+end
 
-    class BazApi < ::Grape::API
+class BazApi < ::Grape::API
 
-      include Grape::Hal
+  include Grape::Hal
 
-      mount FooApi
+  mount FooApi
+  mount SubApi
+
+  hal_for '/' do
+    hal_for '/sub', rel: 'sub', title: 'a sub api module' do
       mount SubApi
-
-      hal_for '/' do
-        hal_for '/sub', rel: 'sub', title: 'a sub api module' do
-          mount SubApi
-        end
-        mount FooApi
-      end
-
     end
+    mount FooApi
+  end
+
+end
+```
 
 After this, when a http request to specific path with `json` format accept headers.
 
